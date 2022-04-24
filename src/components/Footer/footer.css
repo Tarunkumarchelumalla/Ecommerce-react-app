@@ -1,0 +1,19 @@
+.bd-footer{
+    background-color: #E7EDED;
+    color: #56887D;
+    background-image: url(../../Images/cap.PNG);
+    background-repeat: no-repeat;
+    background-position:bottom right ;
+}
+.foot-logo{
+    color:#115C51;
+}
+.foot-imp{
+    color:#FFC064;
+}
+.list{
+    list-style-type: none;
+}
+.hover:hover{
+    color: #FFC064;
+}

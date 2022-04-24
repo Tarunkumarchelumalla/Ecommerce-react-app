@@ -1,6 +1,7 @@
 
 import React from 'react';
 import Login from './components/Login';
+import "../src/App.css";
 import {AuthProvider} from "./components/contexts/AuthContext";
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom"
 import Firstpage from './components/Firstpage';
