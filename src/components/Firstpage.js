@@ -1,17 +1,64 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
  import 'bootstrap/dist/css/bootstrap.min.css';
  import '../components/Firstpage.css';
-
-import { FaLeaf } from 'react-icons/fa';
+ import {useAuth} from "../components/contexts/AuthContext";
+import { FaLeaf,FaUser } from 'react-icons/fa';
  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
  import{faTruck,faBackspace,faArrowAltCircleLeft,faLeaf}from'@fortawesome/free-solid-svg-icons'
  import Card from './card/card';
  import Style from './Styleflex/Style';
  import Footer from './Footer/footer';
- 
+ import {Link,useNavigate} from "react-router-dom";
+
 
 
 export default function Firstpage() {
+  const history=useNavigate();
+
+  const {currentuser,database,ref,onValue,signout} = useAuth();
+  // const[username,setUsername]=useState("");
+  var data
+  async function click(e){
+
+       await signout();
+      console.log('successfull logout');
+      history('/Login') 
+      console.log(currentuser.uid);
+    
+      
+  }
+  function click2(e){
+    history('/Login1')
+ }
+
+//  console.log(currentuser.uid)
+
+//  database.database().ref(currentuser.uid).limitToLast(1).once('value')
+//  .then(function(snapshot) {
+//       snapshot.forEach(function(childSnapshot) {
+//           console.log(childSnapshot.val());
+//           console.log(childSnapshot.val().text);
+//           var b =childSnapshot.val().text;
+//         });
+//       });
+// var starCountRef = firebase.database().ref('posts/' + postId + '/starCount');
+// starCountRef.on('value', (snapshot) => {
+//   const data = snapshot.val();
+//   updateStarCount(postElement, data);
+// });
+// console.log(currentuser.uid) 
+try{
+const starCountRef = ref(database, currentuser.uid);
+onValue(starCountRef, (snapshot) => {
+   data = snapshot.val();
+  console.log(data.email)
+  console.log(data.username)
+  // updateStarCount(postElement, data);
+ 
+});
+} catch{
+   history('/Login')
+}
   return (<>
     <div className='container-fluid bg-1'>
       <div className='row Nav-bar'>
@@ -29,9 +76,15 @@ export default function Firstpage() {
 </ul>
 </div>
 <div className=' col-sm-4 mgt' >
-         <ul>
-         <button className='Account-tag'> signup</button>
-         <button className='Account-tag2 Account-tag'> Login</button>
+<ul className='Accounthandle2'>
+         <li  className='Account-tag'><FaUser size='30px'/>{data.username}</li>
+         
+         {/* <li className='logo list'> <FaUserAlt size='20px'/></li> */}
+         </ul>
+         <ul className='Accounthandle'>
+         <button onClick={click} className='Account-tag'> signup</button>
+         <button onClick={click2}className='Account-tag2 Account-tag'> Login</button>
+         {/* <li className='logo list'> <FaUserAlt size='20px'/></li> */}
          </ul>
          </div>
 </div>

@@ -4,74 +4,30 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {useAuth} from "../components/contexts/AuthContext";
 import {Link,useNavigate} from "react-router-dom";
 import { FaFacebook,FaTwitter,FaGoogle,FaLinkedinIn } from 'react-icons/fa';
-
-function Login (){
+function Login1 (){
 
     const mystyle = {
         paddingleft:"2.5rem", 
 
         paddingright: "2.5rem"
       };
-      // const emailRef=useRef();
+      const emailRef=useRef();
       const passwordRef=useRef();
-      // const nameRef=useRef();
-
-      const {signup,currentuser,set,database,ref} = useAuth();
+      const {Login} = useAuth();
       const [error ,setError]=useState("");
-      const [name ,setName]=useState("");
-      const [email ,setEmail]=useState("");
-      const [Loading,setLoading]=useState(false);
- 
-      const handlechange=(e)=>{
-        setName(e.target.value);
-        
-      }
-      const handlechange2=(e)=>{
-     
-        setEmail(e.target.value);
-      }
-
       const history=useNavigate();
  
     async function handlesubmit(e){
       e.preventDefault()
      try{
        setError("");
-       setLoading(true);
-      await signup(email,passwordRef.current.value);
-      // console.log("yep yore in");
-    //    const res = await fetch(
-    //      'https://greenify-13813-default-rtdb.firebaseio.com/users.json',
-    //    {
-    //     method:"POST",
-    //     headers:{
-    //       "Content-Type":"application/json",
+      await Login(emailRef.current.value,passwordRef.current.value)
+      console.log("yep yore in");
+       history("/");
 
-    //     },
-    //     body:JSON.stringify({
-    //       email:email,
-    //       name:name
-    //     })
-    //   }
-    // )
-// if(res.ok){
-//   console.log("yes its is ");
-// }
-// else{
-//   console.log("you are dead ");
-// }
-set(ref(database,currentuser.uid ), {
-  username: name,
-  email:email
-
-});
-// ref.push(data);
-  history("/");
-     
      }
      catch{
        setError("failed to create an account");
-       console.log()
      }
   
     }
@@ -86,7 +42,7 @@ set(ref(database,currentuser.uid ), {
       </div>
       <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
         <h2></h2>
-        <form onSubmit={handlesubmit}method="POST">
+        <form onSubmit={handlesubmit}>
           <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
             <p className="lead fw-normal mb-0 me-3">Sign in with</p>
             <button type="button" className="btn btn-primary btn-floating mx-1">
@@ -108,15 +64,9 @@ set(ref(database,currentuser.uid ), {
 
       
           <div className="form-outline mb-4">
-            <input type="email" id="form3Example3" onChange={handlechange2} value={email}className="form-control form-control-lg"
+            <input type="email" id="form3Example3" ref ={emailRef} className="form-control form-control-lg"
               placeholder="Enter a valid email address" required/>
             <label className="form-label" >Email address</label>
-          </div>
-          <div className="form-outline mb-4">
-            <input type="text" id="form3Example34" onChange={handlechange} value={name}
-            className="form-control form-control-lg"
-          required/>
-            <label className="form-label" >User name</label>
           </div>
 
     
@@ -138,8 +88,7 @@ set(ref(database,currentuser.uid ), {
           </div>
 
           <div className="text-center text-lg-start mt-4 pt-2">
-            <button  type="submit"  className="btn btn-primary btn-lg"
-            //  disabled={Loading}
+            <button type="submit"  className="btn btn-primary btn-lg"
               style={{mystyle }} >Login</button>
             <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
                 className="link-danger">Register</a></p>
@@ -175,4 +124,4 @@ set(ref(database,currentuser.uid ), {
     );
 }
 
-export default Login;
+export default Login1;
