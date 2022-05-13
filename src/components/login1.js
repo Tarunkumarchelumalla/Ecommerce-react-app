@@ -28,6 +28,7 @@ function Login1 (){
      }
      catch{
        setError("failed to create an account");
+       console.error();
      }
   
     }

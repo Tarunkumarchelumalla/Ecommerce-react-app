@@ -17,12 +17,22 @@ export  function useAuth() {
 export function AuthProvider({children}){
 
     const[currentuser,setCurrentUser] = useState()
+    const[username,setUsername] = useState()
   const database=firebasedata
   
   const ref=ref2;
   const onValue=onValue1;
   const set=set1;
+  var LeadData
     const[loading ,setLoading] = useState(true)
+    const reference= ref(database,LeadData);
+    onValue(reference, (snapshot) => {
+        const data = snapshot.val();
+          
+           console.log(currentuser.uid)
+        //    setUsername(data.username)
+    
+       });
     function signout(){
        return auth.signOut();
     }
@@ -31,12 +41,35 @@ export function AuthProvider({children}){
     }
     function Login(email,password){
         auth.signInWithEmailAndPassword(email,password)
+        
+    }
+    function profile(){
+        const starCountRef = ref(database, currentuser.uid);
+        onValue(starCountRef, (snapshot) => {
+           const data = snapshot.val();
+             
+              console.log(data.username)
+              console.log(data.email)
+              setUsername(data.username)
+       
+          });
+    }
+    function data(){
+        const reference= ref(database,LeadData);
+        onValue(reference, (snapshot) => {
+            const data = snapshot.val();
+              
+               console.log(data)
+            //    setUsername(data.username)
+        
+           });
     }
     useEffect(()=>{
        const unsubscribe= auth.onAuthStateChanged(user=>{
         
             setCurrentUser(user)
-            setLoading(false)
+        setLoading(false)
+        
         })
         return unsubscribe
     }, [])
@@ -44,12 +77,15 @@ export function AuthProvider({children}){
 const value ={
     currentuser,
     database,
+    username,
     ref,
     onValue,
     set,
     signup,
     signout,
-    Login
+    profile,
+    Login,
+    data
 }
 return (
     <AuthContext.Provider value={value}>

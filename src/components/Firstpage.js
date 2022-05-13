@@ -2,22 +2,24 @@ import React, { useEffect, useState } from 'react'
  import 'bootstrap/dist/css/bootstrap.min.css';
  import '../components/Firstpage.css';
  import {useAuth} from "../components/contexts/AuthContext";
-import { FaLeaf,FaUser } from 'react-icons/fa';
+import { FaLeaf,FaUserAlt } from 'react-icons/fa';
  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
  import{faTruck,faBackspace,faArrowAltCircleLeft,faLeaf}from'@fortawesome/free-solid-svg-icons'
  import Card from './card/card';
  import Style from './Styleflex/Style';
  import Footer from './Footer/footer';
  import {Link,useNavigate} from "react-router-dom";
+import profile from './profile/Profile';
+import Lead from './Leaderboard/Lead';
 
 
 
 export default function Firstpage() {
   const history=useNavigate();
 
-  const {currentuser,database,ref,onValue,signout} = useAuth();
-  // const[username,setUsername]=useState("");
-  var data
+  const {currentuser,database,ref,onValue,signout,username} = useAuth();
+ 
+
   async function click(e){
 
        await signout();
@@ -30,6 +32,9 @@ export default function Firstpage() {
   function click2(e){
     history('/Login1')
  }
+ function profile(e){
+  history('/profile')
+}
 
 //  console.log(currentuser.uid)
 
@@ -47,18 +52,17 @@ export default function Firstpage() {
 //   updateStarCount(postElement, data);
 // });
 // console.log(currentuser.uid) 
-try{
-const starCountRef = ref(database, currentuser.uid);
-onValue(starCountRef, (snapshot) => {
-   data = snapshot.val();
-  console.log(data.email)
-  console.log(data.username)
-  // updateStarCount(postElement, data);
+// try{
+// const starCountRef = ref(database, currentuser.uid);
+// onValue(starCountRef, (snapshot) => {
+//    data = snapshot.val();
+
+
  
-});
-} catch{
-   history('/Login')
-}
+// });
+// } catch{
+//    history('/Login')
+// }
   return (<>
     <div className='container-fluid bg-1'>
       <div className='row Nav-bar'>
@@ -72,18 +76,15 @@ onValue(starCountRef, (snapshot) => {
   <li> Home</li>
   <li> News</li>
   <li> Contact</li>
-  <li> About</li>
+  <Link to="/lead"><li>Leaderboard</li></Link>
 </ul>
 </div>
 <div className=' col-sm-4 mgt' >
-<ul className='Accounthandle2'>
-         <li  className='Account-tag'><FaUser size='30px'/>{data.username}</li>
-         
-         {/* <li className='logo list'> <FaUserAlt size='20px'/></li> */}
-         </ul>
-         <ul className='Accounthandle'>
-         <button onClick={click} className='Account-tag'> signup</button>
+
+         <ul id='Accounthandle'>
+         <button onClick={click}  className='Account-tag'> signup</button>
          <button onClick={click2}className='Account-tag2 Account-tag'> Login</button>
+      <button onClick={profile}  className='Account-tag'>   <FaUserAlt size='20px'/> Account</button>
          {/* <li className='logo list'> <FaUserAlt size='20px'/></li> */}
          </ul>
          </div>
@@ -143,6 +144,7 @@ onValue(starCountRef, (snapshot) => {
    <div >
       <Footer></Footer>
    </div>
+  
     </>
   )
 }

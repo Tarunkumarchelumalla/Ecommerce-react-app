@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {useAuth} from "../components/contexts/AuthContext";
 import {Link,useNavigate} from "react-router-dom";
 import { FaFacebook,FaTwitter,FaGoogle,FaLinkedinIn } from 'react-icons/fa';
+import Login1 from "./login1";
 
 function Login (){
 
@@ -21,7 +22,7 @@ function Login (){
       const [name ,setName]=useState("");
       const [email ,setEmail]=useState("");
       const [Loading,setLoading]=useState(false);
- 
+      const [user, setUser] = useState();
       const handlechange=(e)=>{
         setName(e.target.value);
         
@@ -39,6 +40,7 @@ function Login (){
        setError("");
        setLoading(true);
       await signup(email,passwordRef.current.value);
+
       // console.log("yep yore in");
     //    const res = await fetch(
     //      'https://greenify-13813-default-rtdb.firebaseio.com/users.json',
@@ -60,6 +62,9 @@ function Login (){
 // else{
 //   console.log("you are dead ");
 // }
+
+
+
 set(ref(database,currentuser.uid ), {
   username: name,
   email:email
@@ -75,6 +80,9 @@ set(ref(database,currentuser.uid ), {
      }
   
     }
+    function login(){
+      history("/Login1");
+    }
 
     return(<>
        <section className="vh-100">
@@ -88,7 +96,7 @@ set(ref(database,currentuser.uid ), {
         <h2></h2>
         <form onSubmit={handlesubmit}method="POST">
           <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-            <p className="lead fw-normal mb-0 me-3">Sign in with</p>
+            <p className="lead fw-normal mb-0 me-3">Signup with</p>
             <button type="button" className="btn btn-primary btn-floating mx-1">
               <i className="fab fa-facebook-f"><FaFacebook/></i>
             </button>
@@ -140,9 +148,9 @@ set(ref(database,currentuser.uid ), {
           <div className="text-center text-lg-start mt-4 pt-2">
             <button  type="submit"  className="btn btn-primary btn-lg"
             //  disabled={Loading}
-              style={{mystyle }} >Login</button>
+              style={{mystyle }} >Signup</button>
             <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
-                className="link-danger">Register</a></p>
+                onClick={login} className="link-danger">Login??</a></p>
           </div>
 
         </form>
